@@ -1,18 +1,35 @@
 import ProductSection from "@/components/ProductSection";
 import ReviewSection from "@/components/ReviewSection";
+import { fetchProduct } from "@/services";
+import { Product } from "@/types";
+import AddToCartMobile from "@/components/AddToCart_Mobile";
 
-export default function ProductDetailPage() {
+export default async function ProductDetailPage({params,}: {
+  params: Promise<{ id: string }>;}) {
+	const { id } = await params;
+	const productId = Number(id);
+
+	const products : Product = await fetchProduct(productId)
+
+	if (isNaN(productId)) {
+		return 
+		<div>Product Id Not Found</div>
+	}
 	return (
-		<div className="mx-auto w-full xl:w-[1280px] flex flex-col justify-center gap-2">
+		<div className="mx-auto w-full xl:w-[1280px] flex flex-col justify-center gap-2 px-10 lg:px-30">
 			<div className="|| w-full text-2xl font-bold">
 				This is a products Detail Page (string to delete)
 			</div>
 			{/* ^^^ div to be deleted */}
 			<div className="w-full">
-				<ProductSection />
+				<ProductSection productId={productId}/>
 			</div>
 			<div className="w-full">
-				<ReviewSection />
+				<ReviewSection productId={products.id} productRating={products.rating}
+				productName={products.name} productBrand={products.brand}/>
+			</div>
+			<div className="block lg:hidden">
+				<AddToCartMobile />
 			</div>
 		</div>
 	);

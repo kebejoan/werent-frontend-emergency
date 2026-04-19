@@ -6,7 +6,7 @@ export interface Product {
   rating: number;
   description: string;
   imageUrls: string[];
-  reviews: Review[];
+  reviews?: Review[];
 }
 
 export interface Review {
@@ -18,4 +18,23 @@ export interface Review {
   numUpvotes: number;
   description: string;
   attachmentUrl: string;
+  createdAt?: Date;
+}
+
+export interface Pagination {
+  limit: number;
+  nextCursor: number | null;
+  hasNextPage: boolean;
+}
+
+export interface ResFetchProducts {
+  success: boolean;
+  data: Product[];
+  pagination: Pagination;
+}
+
+export interface ResFetchReviewsByProductId {
+  success: boolean;
+  data: Review[];
+  pagination: Pagination;
 }
